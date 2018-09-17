@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>Shorten URL</title>
+    </head>
+    <body>
+        <h1>Shorten URL</h1>
+
+        <form id="my_form">
+            <input type="text" id="originalUrl" name="originalUrl" placeholder="Original Url">
+            <input type="text" id="shortBaseUrlShow" name="shortBaseUrlShow" placeholder="base Url" value="http://localhost" disabled>
+            <input type="hidden" id="shortBaseUrl" name="shortBaseUrl" placeholder="base Url" value="http://localhost">
+            <input type="text" id="customshortUrl" name="customshortUrl" placeholder="Custom alias">
+            <input type="submit" name="submit" value="Submit Form" />
+        <div id="Result"><!-- For server results --></div>
+        </form>
+    </body>
+    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>		
+		<script type="text/javascript">
+            $(function(){				
+                $('#my_form').submit(function(e){
+                    e.preventDefault();
+                    console.log('select_link clicked');
+                    var showMessage = $('#Result');
+                    var data = {};
+                    
+					data.originalUrl = $('#originalUrl').val();
+                    data.shortBaseUrl = $('#shortBaseUrl').val();
+                    data.customshortUrl = $('#customshortUrl').val();
+					
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:9000/api/item',
+                        // success: function(data) {
+                        success: function (response, status, xhr) {
+                            console.log('success');
+                            // console.log(JSON.stringify(data));
+                            // console.log(response);
+                            // console.log(status);
+                            // console.log(xhr);
+
+                            html = "<div> Original URL : " + response.originalUrl + ", </div>";
+                            html += "<div> Shorten URL : " + response.shortUrl + "</div>";
+
+                            showMessage.html(JSON.stringify(html));
+                        },
+                            error: function (xhr, status, error) {
+                            showMessage.html(xhr.responseText);
+                        }
+                    });
+                });				
+            });
+        </script>
+</html>
