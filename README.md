@@ -13,3 +13,11 @@ location ~* "^/[0-9a-z@]{5,15}$"  {
             rewrite ^/(.*)$ http://localhost:9000/api/item/$1 redirect;
     }
 ```
+
+# test
+
+```
+$ yarn
+$ yarn run start
+```
+open  `../client/index.html` on browser
