@@ -1,2 +1,2 @@
-# shortener
+# url shortener
 URLShortener Assignment
